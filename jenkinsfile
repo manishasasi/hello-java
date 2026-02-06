@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    tools {
+        maven "maven3"
+    }
+stages {
+        stage('Clean Workspace') {
+            steps {
+                echo "Cleaning workspace..."
+                cleanWs()
+            }
+        }
+post {
+        success {
+            echo 'Build completed successfully!'
+        }
+        failure {
+            echo 'Build failed. Check logs.'
+        }
+    }
+}
