@@ -4,6 +4,14 @@ pipeline {
     tools {
         maven "maven3"
     }
+
+         environment { 
+            NEXUS_URL = 'http://localhost:8081/#browse/welcome'
+            NEXUS_REPO = 'hello-java'
+            NEXUS_CREDENTIALS_ID = 'nexus-credentials'
+            ARTIFACT_VERSION = "${BUILD_NUMBER}"
+            DOCKER_IMAGE = "manishasasi5/hello-java:${BUILD_NUMBER}"
+        }
         stages {
                 stage('Clean Workspace') {
                     steps {
@@ -22,7 +30,30 @@ pipeline {
                     }
                 }
                stage('Build') { steps { bat 'mvn clean install' } } 
+
                stage('Test') { steps { bat 'mvn test' } }
+
+               stage('Uploading to Nexus') {
+                steps {
+                    echo 'Uploading artifact to Nexus repository...'
+                    nexusArtifactUploader artifacts: [
+                        [
+                            artifactId: 'HelloDockerJava',
+                            classifier: '',
+                            file: 'hello-java/target/HelloDockerJava-1.0.jar',
+                            type: 'jar'
+                        ]
+                    ],
+                    credentialsId: "${env.NEXUS_CREDENTIALS_ID}",
+                    groupId: 'com.manisha',
+                    nexusUrl: "${env.NEXUS_URL}",
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: "${env.NEXUS_REPO}",
+                    version: "${env.ARTIFACT_VERSION}"
+            }
+        }
+
             }
 post {
         success {
