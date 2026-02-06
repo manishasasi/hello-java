@@ -21,6 +21,8 @@ pipeline {
                         bat 'git checkout -B main origin/main'
                     }
                 }
+               stage('Build') { steps { bat 'mvn clean install' } } 
+               stage('Test') { steps { bat 'mvn test' } }
             }
 post {
         success {
