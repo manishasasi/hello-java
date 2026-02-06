@@ -34,27 +34,27 @@ pipeline {
                stage('Test') { steps { bat 'mvn test' } }
 
                stage('Uploading to Nexus') {
-                steps {
-                    echo 'Uploading artifact to Nexus repository...'
-                    nexusArtifactUploader artifacts: [
-                        [
-                            artifactId: 'HelloDockerJava',
-                            classifier: '',
-                            file: 'hello-java/target/HelloDockerJava-1.0.jar',
-                            type: 'jar'
-                        ]
-                    ],
-                    credentialsId: "${env.NEXUS_CREDENTIALS_ID}",
-                    groupId: 'com.manisha',
-                    nexusUrl: "${env.NEXUS_URL}",
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    repository: "${env.NEXUS_REPO}",
-                    version: "${env.ARTIFACT_VERSION}"
-            }
-        }
+                    steps {
+                        echo "Uploading artifact to Nexus repository..."
+                        nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: 'localhost:8081',
+                            groupId: 'com.manisha',
+                            version: '1.0',
+                            repository: 'hello-java',
+                            credentialsId: 'nexus',
+                            artifacts: [
+                                [artifactId: 'HelloDockerJava',
+                                 classifier: '',
+                                 file: 'target/HelloDockerJava-1.0.jar',
+                                 type: 'jar']
+                            ]
+                        )
+                    }
+                }
 
-            }
+          }
 post {
         success {
             echo 'Build completed successfully!'
