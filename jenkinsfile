@@ -43,7 +43,7 @@ pipeline {
                             groupId: 'com.manisha',
                             version: '1.0',
                             repository: 'hello-java',
-                            credentialsId: '${env.NEXUS_CREDENTIALS_ID}',
+                            credentialsId: 'nexus-credentials',
                             artifacts: [
                                 [artifactId: 'HelloDockerJava',
                                  classifier: '',
