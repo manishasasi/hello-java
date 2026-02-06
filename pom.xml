@@ -10,6 +10,16 @@
     <artifactId>HelloDockerJava</artifactId>
     <version>1.0</version>
 
+     <!-- ✅ Distribution management must be at project level -->
+    <distributionManagement>
+        <repository>
+            <id>hello-java</id>
+            <url>http://localhost:8081/repository/hello-java//</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>    
     <!-- Java version -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
