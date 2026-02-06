@@ -6,7 +6,7 @@ pipeline {
     }
 
          environment { 
-            NEXUS_URL = 'http://localhost:8081/#browse/welcome'
+            NEXUS_URL = 'http://localhost:8081/repository/hello-java/'
             NEXUS_REPO = 'hello-java'
             NEXUS_CREDENTIALS_ID = 'nexus-credentials'
             ARTIFACT_VERSION = "${BUILD_NUMBER}"
