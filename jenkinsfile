@@ -4,24 +4,24 @@ pipeline {
     tools {
         maven "maven3"
     }
-stages {
-        stage('Clean Workspace') {
+        stages {
+                stage('Clean Workspace') {
+                    steps {
+                        echo "Cleaning workspace..."
+                        cleanWs()
+                    }
+                }
+        }
+        stage('Git Checkout') {
             steps {
-                echo "Cleaning workspace..."
-                cleanWs()
+                dir("${WORKSPACE}") {
+                    git branch: 'main',
+                        url: 'https://github.com/manishasasi/hello-java.git',
+                        credentialsId: 'git'
+                }
+                sh 'git checkout -B main origin/main'
             }
         }
-}
-stage('Git Checkout') {
-    steps {
-        dir("${WORKSPACE}") {
-            git branch: 'main',
-                url: 'https://github.com/manishasasi/hello-java.git',
-                credentialsId: 'git'
-        }
-        sh 'git checkout -B main origin/main'
-    }
-}
 post {
         success {
             echo 'Build completed successfully!'
