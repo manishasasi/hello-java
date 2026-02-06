@@ -11,7 +11,6 @@ pipeline {
                         cleanWs()
                     }
                 }
-        }
                 stage('Git Checkout') {
                     steps {
                         dir("${WORKSPACE}") {
@@ -22,6 +21,7 @@ pipeline {
                         sh 'git checkout -B main origin/main'
                     }
                 }
+}
 post {
         success {
             echo 'Build completed successfully!'
