@@ -18,7 +18,7 @@ pipeline {
                                 url: 'https://github.com/manishasasi/hello-java.git',
                                 credentialsId: 'git'
                         }
-                        sh 'git checkout -B main origin/main'
+                        bat 'git checkout -B main origin/main'
                     }
                 }
             }
